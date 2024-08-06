@@ -42,16 +42,10 @@ class SAXDecoderTest {
       + "    </ns1:getNeustarNetworkStatusResponse>\n"//
       + "  </soap:Body>\n"//
       + "</soap:Envelope>";
-  Decoder decoder = SAXDecoder.builder() //
-      .registerContentHandler(NetworkStatus.class,
-          new SAXDecoder.ContentHandlerWithResult.Factory<NetworkStatus>() {
-            @Override
-            public SAXDecoder.ContentHandlerWithResult<NetworkStatus> create() {
-              return new NetworkStatusHandler();
-            }
-          }) //
-      .registerContentHandler(NetworkStatusStringHandler.class) //
-      .build();
+  Decoder decoder=SAXDecoder.builder() //
+  .registerContentHandler(NetworkStatus.class,new SAXDecoder.ContentHandlerWithResult.Factory<NetworkStatus>(){@Override public SAXDecoder.ContentHandlerWithResult<NetworkStatus>create(){return new NetworkStatusHandler();}}) //
+  .registerContentHandler(NetworkStatusStringHandler.class) //
+  .build();
 
   @Test
   void parsesConfiguredTypes() throws ParseException, IOException {
@@ -101,7 +95,8 @@ class SAXDecoderTest {
     assertThat((byte[]) decoder.decode(response, byte[].class)).isEmpty();
   }
 
-  static enum NetworkStatus {
+  static enum NetworkStatus
+  {
     GOOD, FAILED;
   }
 

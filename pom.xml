@@ -64,6 +64,7 @@
     <module>example-wikipedia-with-springboot</module>
     <module>benchmark</module>
     <module>moshi</module>
+    <module>fastjson</module>
   </modules>
 
   <properties>
@@ -75,7 +76,7 @@
     <jvm.options>-Duser.language=en</jvm.options>
 
     <!-- default bytecode version for src/main -->
-    <main.java.version>1.8</main.java.version>
+    <main.java.version>11</main.java.version>
     <latest.java.version>21</latest.java.version>
 
     <!-- default bytecode version for src/test -->

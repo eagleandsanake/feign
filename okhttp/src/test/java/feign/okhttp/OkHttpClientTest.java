@@ -61,46 +61,35 @@ public class OkHttpClientTest extends AbstractClientTest {
 
   @Test
   void noFollowRedirect() throws Exception {
-    server.enqueue(
-        new MockResponse().setResponseCode(302).addHeader("Location", server.url("redirect")));
+    server.enqueue(new MockResponse().setResponseCode(302).addHeader("Location",server.url("redirect")));
     // Enqueue a response to fail fast if the redirect is followed, instead of waiting for the
     // timeout
     server.enqueue(new MockResponse().setBody("Hello"));
 
-    OkHttpClientTestInterface api = newBuilder()
-        // Use the same connect and read timeouts as the OkHttp default
-        .options(new Request.Options(10_000, TimeUnit.MILLISECONDS, 10_000, TimeUnit.MILLISECONDS,
-            false))
-        .target(OkHttpClientTestInterface.class, "http://localhost:" + server.getPort());
+    OkHttpClientTestInterface api=newBuilder()
+    // Use the same connect and read timeouts as the OkHttp default
+    .options(new Request.Options(10_000,TimeUnit.MILLISECONDS,10_000,TimeUnit.MILLISECONDS,false)).target(OkHttpClientTestInterface.class,"http://localhost:"+server.getPort());
 
-    Response response = api.get();
+    Response response=api.get();
     // Response length should not be null
-    assertThat(response.status()).isEqualTo(302);
-    assertThat(response.headers().get("Location").iterator().next())
-        .isEqualTo(server.url("redirect").toString());
+    assertThat(response.status()).isEqualTo(302);assertThat(response.headers().get("Location").iterator().next()).isEqualTo(server.url("redirect").toString());
 
   }
 
 
   @Test
   void followRedirect() throws Exception {
-    String expectedBody = "Hello";
+    String expectedBody="Hello";
 
-    server.enqueue(
-        new MockResponse().setResponseCode(302).addHeader("Location", server.url("redirect")));
-    server.enqueue(new MockResponse().setBody(expectedBody));
+    server.enqueue(new MockResponse().setResponseCode(302).addHeader("Location",server.url("redirect")));server.enqueue(new MockResponse().setBody(expectedBody));
 
-    OkHttpClientTestInterface api = newBuilder()
-        // Use the same connect and read timeouts as the OkHttp default
-        .options(new Request.Options(10_000, TimeUnit.MILLISECONDS, 10_000, TimeUnit.MILLISECONDS,
-            true))
-        .target(OkHttpClientTestInterface.class, "http://localhost:" + server.getPort());
+    OkHttpClientTestInterface api=newBuilder()
+    // Use the same connect and read timeouts as the OkHttp default
+    .options(new Request.Options(10_000,TimeUnit.MILLISECONDS,10_000,TimeUnit.MILLISECONDS,true)).target(OkHttpClientTestInterface.class,"http://localhost:"+server.getPort());
 
-    Response response = api.get();
+    Response response=api.get();
     // Response length should not be null
-    assertThat(response.status()).isEqualTo(200);
-    String payload = Util.toString(response.body().asReader(StandardCharsets.UTF_8));
-    assertThat(payload).isEqualTo(expectedBody);
+    assertThat(response.status()).isEqualTo(200);String payload=Util.toString(response.body().asReader(StandardCharsets.UTF_8));assertThat(payload).isEqualTo(expectedBody);
 
   }
 
