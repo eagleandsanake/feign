@@ -22,6 +22,7 @@ import feign.codec.ErrorDecoder;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * Feign's purpose is to ease development against http apis that feign restfulness. <br>
